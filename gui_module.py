@@ -60,7 +60,9 @@ class GUI:
     def input_to_output(self, event=None):
         input = self.entry.get()
         self.entry.delete(0, ctk.END)
-        data = ai_module.run_ai(input)
+        self.response = ai_module.run_ai(input)
+        self.response_label = ctk.CTkLabel(self.body_frame, text=self.response,  wraplength=500, bg_color=self.colors['lightPurple'], anchor="w")
+        self.response_label.pack()
 
         #Transition from centered layout to side x side layout
         if self.original_setup:
@@ -71,12 +73,3 @@ class GUI:
             self.original_setup = False
             self.right_header = ctk.CTkLabel(self.right_frame, text="APIs for you:")
             self.right_header.pack()
-
-        entries = data["entries"]
-        for entry in entries:
-            self.child_frame = ctk.CTkFrame(self.right_frame)
-            self.child_label = ctk.CTkLabel(self.child_frame, text=entry['title'])
-            self.child_frame.pack()
-
-
- 
