@@ -4,7 +4,8 @@ import ai_module
 
 class GUI:
     def __init__(self, root):
-        colors = {"black":"#000000",
+        self.original_setup = True
+        self.colors = {"black":"#000000",
                   "darkGray":"#141414",
                   "lightGray":"#282828",
                   "darkPurple":"#230046",
@@ -19,21 +20,21 @@ class GUI:
         self.root.grid_rowconfigure(0, weight=1)
 
         #User Input Frame init
-        self.user_input_frame = ctk.CTkFrame(self.root, fg_color=colors["darkGray"])
+        self.user_input_frame = ctk.CTkFrame(self.root, fg_color=self.colors["darkGray"])
         self.user_input_frame.grid(row=0, column=1, sticky='nsew')
         self.user_input_frame.grid_rowconfigure(1, weight=1)
         self.header = ctk.CTkLabel(self.user_input_frame, text="API Search Tool - Powered by AI", font=('Open Sans', 26))
         self.header.grid(row=0, columnspan=2, column=0, pady=10)
-        self.body_frame = ctk.CTkFrame(self.user_input_frame, fg_color=colors["darkGray"])
+        self.body_frame = ctk.CTkFrame(self.user_input_frame, fg_color=self.colors["darkGray"])
         self.body_frame.grid(row=1, column=0, columnspan=2, sticky='nsew')
         self.user_input_frame.grid_columnconfigure(0, weight=1)
-        self.pad_frame = ctk.CTkFrame(self.user_input_frame, bg_color=colors["darkGray"], fg_color=colors['darkGray'])
+        self.pad_frame = ctk.CTkFrame(self.user_input_frame, bg_color=self.colors["darkGray"], fg_color=self.colors['darkGray'])
         self.pad_frame.grid_columnconfigure(0, weight=1)
         self.pad_frame.grid(row=2, column=0, sticky='ew', pady=15, padx=15)
         self.entry = ctk.CTkEntry(self.pad_frame, placeholder_text="Tell us what API you're looking for...", height=50)
         self.entry.grid(row=2, column=0, sticky='ew')
         self.entry.bind("<Return>", self.input_to_output)
-        self.ask_button = ctk.CTkButton(self.pad_frame, command=self.input_to_output, text=">", width=60, height=50, fg_color=colors["lightPurple"], font=('Open Sans', 18))
+        self.ask_button = ctk.CTkButton(self.pad_frame, command=self.input_to_output, text=">", width=60, height=50, fg_color=self.colors["lightPurple"], font=('Open Sans', 18))
         self.ask_button.grid(row=2, column=1, sticky='ew')
 
 
@@ -60,3 +61,16 @@ class GUI:
         input = self.entry.get()
         self.entry.delete(0, ctk.END)
         output = ai_module.run_ai(input)
+
+        #Transition from centered layout to side x side layout
+        if self.original_setup:
+            self.user_input_frame.grid(row=0, column=0)
+            self.root.grid_columnconfigure(2, weight=0)
+            self.right_frame = ctk.CTkFrame(self.root, fg_color=self.colors['lightGray'])
+            self.right_frame.grid(row=0, column=1, sticky='nsew')
+            self.original_setup = False
+
+        self.right_header = ctk.CTkLabel(self.right_frame, text="APIs for you:")
+        self.right_header.pack()
+
+ 
