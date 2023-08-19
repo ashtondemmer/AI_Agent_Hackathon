@@ -60,7 +60,7 @@ class GUI:
     def input_to_output(self, event=None):
         input = self.entry.get()
         self.entry.delete(0, ctk.END)
-        output = ai_module.run_ai(input)
+        data = ai_module.run_ai(input)
 
         #Transition from centered layout to side x side layout
         if self.original_setup:
@@ -69,8 +69,14 @@ class GUI:
             self.right_frame = ctk.CTkFrame(self.root, fg_color=self.colors['lightGray'])
             self.right_frame.grid(row=0, column=1, sticky='nsew')
             self.original_setup = False
+            self.right_header = ctk.CTkLabel(self.right_frame, text="APIs for you:")
+            self.right_header.pack()
 
-        self.right_header = ctk.CTkLabel(self.right_frame, text="APIs for you:")
-        self.right_header.pack()
+        entries = data["entries"]
+        for entry in entries:
+            self.child_frame = ctk.CTkFrame(self.right_frame)
+            self.child_label = ctk.CTkLabel(self.child_frame, text=entry['title'])
+            self.child_frame.pack()
+
 
  
