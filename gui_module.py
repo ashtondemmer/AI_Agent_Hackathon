@@ -1,6 +1,8 @@
 import customtkinter as ctk
+from CTkMessagebox import CTkMessagebox
 from customtkinter import filedialog
 import ai_module
+import convert_file_module
     
 
 class GUI:
@@ -94,17 +96,10 @@ class GUI:
         self.upload_file_button.grid(row=0, column=1, padx=15)
 
     def add_article(self, file_number):
-        print(file_number)
         with open(f"example_text/example{file_number}.txt", "r", encoding="utf-8") as file:
             content = file.read()
             self.input_field.delete("1.0", "end")
             self.input_field.insert("1.0", content)
-    # def example_1(self):
-    #     self.add_article(1)
-    # def example_2(self):
-    #     self.add_article(2)
-    # def example_3(self):
-    #     self.add_article(3)
 
     def summarize(self, event=None):
         input = self.input_field.get("1.0", "end-1c")
@@ -114,7 +109,15 @@ class GUI:
     def upload_file(self, event=None):
         file_path = filedialog.askopenfilename()
         if file_path:
-            self.file_label.configure(text=f"Selected File: {file_path}")
+            # self.file_label.configure(text=f"Selected File: {file_path}")
+            file_contents = convert_file_module.convert_to_text(file_path)
+            if file_contents == "ENOENT":
+                CTkMessagebox(master=self.root, title="Error", message="File Not Found", icon="cancel")
+            else:
+                self.input_field.delete("1.0", "end")
+                self.input_field.insert("1.0", file_contents)
+
+
     
 
 

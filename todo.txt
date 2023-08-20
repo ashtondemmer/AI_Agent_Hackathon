@@ -1,0 +1,6 @@
+- add threading to api requests
+- add fake progress bar
+- add if check == 200 for api requests and popup window if over 5 requests/main
+- bg color by summarize btn and add file btn
+- differenciate between .txt, .pdf, and others
+- add the txt parsing code to convert_file_module
