@@ -24,7 +24,7 @@ class GUI:
         self.left_frame.grid_rowconfigure(1, weight=1)
         self.header = ctk.CTkLabel(self.left_frame, text="QuickRead", font=('Open Sans', 26))
         self.header.grid(row=0, columnspan=2, column=0, pady=10)
-        self.summarized_text = ctk.CTkLabel(self.left_frame, text="Your summarized text will appear here.", font=('Open Sans', 14), wraplength=450)
+        self.summarized_text = ctk.CTkLabel(self.left_frame, text="Your summarized text will appear here.", font=('Open Sans', 14), wraplength=450, justify='left')
         self.summarized_text.grid(row=1, columnspan=2, column=0)
         # self.body_frame = ctk.CTkFrame(self.left_frame, fg_color=self.colors["darkGray"])
         # self.body_frame.grid(row=2, column=0, columnspan=2, sticky='nsew')
@@ -79,6 +79,8 @@ class GUI:
             sub_frame.grid(row=1, column=column, padx=5, pady=5, sticky='nsew')
             label = ctk.CTkLabel(sub_frame, text=text, font=("Arial", 14), height=50, width=20, wraplength=175)
             label.pack(padx=5, pady=5)
+            sub_frame.bind("<Button-1>", lambda event, idx=index+1: self.add_article(idx))
+            label.bind("<Button-1>", lambda event, idx=index+1: self.add_article(idx))
 
         self.input_field = ctk.CTkTextbox(self.right_frame)
         self.input_field.insert("1.0", "Paste what you want to be summarized here...")
@@ -91,7 +93,18 @@ class GUI:
         self.upload_file_button = ctk.CTkButton(self.btn_frame, text="Upload File", command=self.upload_file)
         self.upload_file_button.grid(row=0, column=1, padx=15)
 
-
+    def add_article(self, file_number):
+        print(file_number)
+        with open(f"example_text/example{file_number}.txt", "r", encoding="utf-8") as file:
+            content = file.read()
+            self.input_field.delete("1.0", "end")
+            self.input_field.insert("1.0", content)
+    # def example_1(self):
+    #     self.add_article(1)
+    # def example_2(self):
+    #     self.add_article(2)
+    # def example_3(self):
+    #     self.add_article(3)
 
     def summarize(self, event=None):
         input = self.input_field.get("1.0", "end-1c")
@@ -102,7 +115,7 @@ class GUI:
         file_path = filedialog.askopenfilename()
         if file_path:
             self.file_label.configure(text=f"Selected File: {file_path}")
-
+    
 
 
 
