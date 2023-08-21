@@ -28,19 +28,9 @@ class GUI:
         self.header.grid(row=0, columnspan=2, column=0, pady=10)
         self.summarized_text = ctk.CTkLabel(self.left_frame, text="Your summarized text will appear here.", font=('Open Sans', 14), wraplength=450, justify='left')
         self.summarized_text.grid(row=1, columnspan=2, column=0)
-        # self.body_frame = ctk.CTkFrame(self.left_frame, fg_color=self.colors["darkGray"])
-        # self.body_frame.grid(row=2, column=0, columnspan=2, sticky='nsew')
         self.left_frame.grid_columnconfigure(0, weight=1)
-
-            #Old txt input and submit button
-        # self.pad_frame = ctk.CTkFrame(self.left_frame, bg_color=self.colors["darkGray"], fg_color=self.colors['darkGray'])
-        # self.pad_frame.grid_columnconfigure(0, weight=1)
-        # self.pad_frame.grid(row=3, column=0, sticky='ew', pady=15, padx=15)
-        # self.entry = ctk.CTkEntry(self.pad_frame, placeholder_text="Tell us what API you're looking for...", height=50)
-        # self.entry.grid(row=2, column=0, sticky='ew')
-        # self.entry.bind("<Return>", self.input_to_output)
-        # self.ask_button = ctk.CTkButton(self.pad_frame, command=self.input_to_output, text=">", width=60, height=50, fg_color=self.colors["lightPurple"], font=('Open Sans', 18))
-        # self.ask_button.grid(row=2, column=1, sticky='ew')
+        self.progressbar = ctk.CTkProgressBar(self.left_frame, orientation='horizontal', width=400, mode='determinate')
+        self.progressbar.grid(row=2, column=0)
 
         self.suggestionTexts = [
             "Paste long emails that take too much time to read.",
@@ -49,7 +39,7 @@ class GUI:
             "Open files from your computer within QuickRead for easy summarization!"
         ]
         self.suggestion_frame = ctk.CTkFrame(self.left_frame)
-        self.suggestion_frame.grid(row=2, column=0, pady=25)
+        self.suggestion_frame.grid(row=3, column=0, pady=25)
         self.suggestion_header = ctk.CTkLabel(self.suggestion_frame, text="Some uses for QuickRead:")
         self.suggestion_header.grid(row=0, column=0, columnspan=2)
         for index, text in enumerate(self.suggestionTexts):
@@ -94,7 +84,7 @@ class GUI:
         self.summarize_btn.grid(row=0, column=0, padx=15)
         self.upload_file_button = ctk.CTkButton(self.btn_frame, text="Upload File", command=self.upload_file)
         self.upload_file_button.grid(row=0, column=2, padx=15)
-        self.dropdown = ctk.CTkComboBox(self.btn_frame, values=['Short Summary', 'Medium Summary', 'Long Summary'])
+        self.dropdown = ctk.CTkComboBox(self.btn_frame, values=['Short Summary', 'Medium Summary', 'Long Summary'], state="readonly")
         self.dropdown.set("Medium Summary")
         self.dropdown.grid(row=0, column=1)
 
