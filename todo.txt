@@ -1,1 +1,0 @@
-- bg color by summarize btn and add file btn
