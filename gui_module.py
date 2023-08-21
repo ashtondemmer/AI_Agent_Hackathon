@@ -3,10 +3,11 @@ from CTkMessagebox import CTkMessagebox
 from customtkinter import filedialog
 import ai_module
 import convert_file_module
+import threading
     
-
 class GUI:
     def __init__(self, root):
+        ctk.set_default_color_theme("green")
         self.colors = {"black":"#000000",
                   "darkGray":"#141414",
                   "lightGray":"#282828",
@@ -29,7 +30,9 @@ class GUI:
         self.summarized_text = ctk.CTkLabel(self.left_frame, text="Your summarized text will appear here.", font=('Open Sans', 14), wraplength=450, justify='left')
         self.summarized_text.grid(row=1, columnspan=2, column=0)
         self.left_frame.grid_columnconfigure(0, weight=1)
-        self.progressbar = ctk.CTkProgressBar(self.left_frame, orientation='horizontal', width=400, mode='determinate')
+        self.progress_var = ctk.DoubleVar()
+        self.progress_var.set(100.0)
+        self.progressbar = ctk.CTkProgressBar(self.left_frame, variable=self.progress_var, orientation='horizontal', width=400, mode='determinate')
         self.progressbar.grid(row=2, column=0)
 
         self.suggestionTexts = [
@@ -97,8 +100,26 @@ class GUI:
     def summarize(self, event=None):
         input = self.input_field.get("1.0", "end-1c")
         length = self.dropdown.get()
-        self.response = ai_module.run_ai(input, length)
+        # Runs the api call on a seperate thread to prevent GUI from freezing and crashing
+        self.response_thread = threading.Thread(target=self.run_ai_in_thread, args=(input, length))
+        self.response_thread.start()
+        self.progress_var.set(0.0)
+        self.root.after(50, self.update_progress)
+
+    def update_progress(self):
+        if self.response_thread.is_alive():
+            current_status = self.progress_var.get()
+            if current_status < .90: # Makes sure the progress bar won't finish before the api request is done
+                self.progress_var.set(current_status+0.004)
+            self.root.after(50, self.update_progress)
+        else:
+            self.progress_var.set(100)
+
+    def run_ai_in_thread(self, input, length):
+        self.response = ai_module.run_ai(input, length, self.root)
         self.summarized_text.configure(text=self.response)
+        
+
 
     def upload_file(self, event=None):
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("PDF Files", "*.pdf")])
