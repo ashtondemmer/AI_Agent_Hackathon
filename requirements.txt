@@ -1,3 +1,4 @@
+customtkinter
 cohere
 CTkMessagebox
 requests
