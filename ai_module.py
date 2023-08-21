@@ -6,7 +6,11 @@ import os
 def run_ai(input, length, root):
     length = length.split()[0].lower()
 
-    with open('api_key.env', 'r') as env_file:
+    # Construct the path using the scripts dir
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    api_key_path = os.path.join(script_directory, 'api_key.env')
+    
+    with open(api_key_path, 'r') as env_file:
         for line in env_file:
             key, value = line.strip().split('=')
             os.environ[key] = value
