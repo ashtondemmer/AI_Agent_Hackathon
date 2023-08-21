@@ -2,3 +2,4 @@ customtkinter
 cohere
 CTkMessagebox
 requests
+PyPDF2
