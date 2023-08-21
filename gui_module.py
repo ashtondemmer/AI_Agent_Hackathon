@@ -4,6 +4,7 @@ from customtkinter import filedialog
 import ai_module
 import convert_file_module
 import threading
+import os
     
 class GUI:
     def __init__(self, root):
@@ -93,7 +94,10 @@ class GUI:
         self.dropdown.grid(row=0, column=1)
 
     def add_article(self, file_number):
-        with open(f"example_text/example{file_number}.txt", "r", encoding="utf-8") as file:
+        script_directory = os.path.dirname(os.path.abspath(__file__))
+        file_path = os.path.join(script_directory, f"example_text/example{file_number}.txt")
+        
+        with open(file_path, "r", encoding="utf-8") as file:
             content = file.read()
             self.input_field.delete("1.0", "end")
             self.input_field.insert("1.0", content)
