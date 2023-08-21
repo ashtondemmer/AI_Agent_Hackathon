@@ -132,10 +132,3 @@ class GUI:
             else:
                 self.input_field.delete("1.0", "end")
                 self.input_field.insert("1.0", file_contents)
-
-
-    
-
-
-
-
