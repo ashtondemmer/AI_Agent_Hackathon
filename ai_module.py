@@ -1,13 +1,16 @@
 import cohere
-import PyPDF2
 from CTkMessagebox import CTkMessagebox
+import os
 
 
 def run_ai(input, length, root):
     length = length.split()[0].lower()
 
-    api_key = "DWj2W2Xrp138tVMderoQAiVBxV3ZywVMj2XXgUh1"
-    co = cohere.Client(api_key)
+    with open('key.env', 'r') as env_file:
+        for line in env_file:
+            key, value = line.strip().split('=')
+            os.environ[key] = value
+    co = cohere.Client(os.environ['COHERE_API_KEY'])
     
     try:
         response = co.summarize(
