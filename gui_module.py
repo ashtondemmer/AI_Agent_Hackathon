@@ -93,7 +93,10 @@ class GUI:
         self.summarize_btn = ctk.CTkButton(self.btn_frame, text="Summarize", command=self.summarize)
         self.summarize_btn.grid(row=0, column=0, padx=15)
         self.upload_file_button = ctk.CTkButton(self.btn_frame, text="Upload File", command=self.upload_file)
-        self.upload_file_button.grid(row=0, column=1, padx=15)
+        self.upload_file_button.grid(row=0, column=2, padx=15)
+        self.dropdown = ctk.CTkComboBox(self.btn_frame, values=['Short Summary', 'Medium Summary', 'Long Summary'])
+        self.dropdown.set("Medium Summary")
+        self.dropdown.grid(row=0, column=1)
 
     def add_article(self, file_number):
         with open(f"example_text/example{file_number}.txt", "r", encoding="utf-8") as file:
@@ -103,11 +106,12 @@ class GUI:
 
     def summarize(self, event=None):
         input = self.input_field.get("1.0", "end-1c")
-        self.response = ai_module.run_ai(input)
+        length = self.dropdown.get()
+        self.response = ai_module.run_ai(input, length)
         self.summarized_text.configure(text=self.response)
 
     def upload_file(self, event=None):
-        file_path = filedialog.askopenfilename()
+        file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("PDF Files", "*.pdf")])
         if file_path:
             # self.file_label.configure(text=f"Selected File: {file_path}")
             file_contents = convert_file_module.convert_to_text(file_path)

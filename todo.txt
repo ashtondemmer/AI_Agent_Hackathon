@@ -4,3 +4,7 @@
 - bg color by summarize btn and add file btn
 - differenciate between .txt, .pdf, and others
 - add the txt parsing code to convert_file_module
+- add error message for under 250 characters
+- make the dropdown non-editable
+
+- slideshow
