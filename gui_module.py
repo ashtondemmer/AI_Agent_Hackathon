@@ -12,7 +12,8 @@ class GUI:
                   "darkGray":"#141414",
                   "lightGray":"#282828",
                   "darkPurple":"#230046",
-                  "lightPurple":"#320064"}
+                  "lightPurple":"#320064",
+                  "gray":"#555555"}
         self.root = root
         self.root.title("QuickRead")
         self.root.geometry("1100x650")
@@ -55,7 +56,7 @@ class GUI:
 
         #Right Side
         self.left_frame.grid(row=0, column=0)
-        self.right_frame = ctk.CTkFrame(self.root, fg_color=self.colors['lightGray'])
+        self.right_frame = ctk.CTkFrame(self.root, fg_color=self.colors['gray'])
         self.right_frame.grid(row=0, column=1, sticky='nsew')
 
         #Suggestions Frame
@@ -81,7 +82,7 @@ class GUI:
         self.input_field.insert("1.0", "Paste what you want to be summarized here...")
         self.input_field.pack(fill="both", expand=True, padx=15)
         
-        self.btn_frame = ctk.CTkFrame(self.right_frame)
+        self.btn_frame = ctk.CTkFrame(self.right_frame, fg_color=self.colors['gray'], bg_color=self.colors['gray'])
         self.btn_frame.pack(side='bottom', pady=15)
         self.summarize_btn = ctk.CTkButton(self.btn_frame, text="Summarize", command=self.summarize)
         self.summarize_btn.grid(row=0, column=0, padx=15)
