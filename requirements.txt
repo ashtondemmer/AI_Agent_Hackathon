@@ -2,4 +2,3 @@ customtkinter
 cohere
 CTkMessagebox
 requests
-threading
