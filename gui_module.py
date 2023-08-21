@@ -129,8 +129,10 @@ class GUI:
     def upload_file(self, event=None):
         file_path = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt"), ("PDF Files", "*.pdf")])
         if file_path:
-            # self.file_label.configure(text=f"Selected File: {file_path}")
-            file_contents = convert_file_module.convert_to_text(file_path)
+            script_directory = os.path.dirname(os.path.abspath(__file__))
+            full_file_path = os.path.join(script_directory, file_path)
+
+            file_contents = convert_file_module.convert_to_text(full_file_path)
             if file_contents == "ENOENT":
                 CTkMessagebox(master=self.root, title="Error", message="File Not Found", icon="cancel")
             else:
